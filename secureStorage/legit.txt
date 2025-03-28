@@ -1,0 +1,3 @@
+This is a legitimate file with public content.
+It contains information that should be accessible to users.
+Welcome to our secure storage! 
