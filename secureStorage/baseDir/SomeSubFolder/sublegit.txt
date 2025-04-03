@@ -1,0 +1,2 @@
+This is a sub-legitimate file with public content in subfolder.
+User-submitted relative path (instead of file-name) was suscesfully processed.

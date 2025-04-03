@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile Java",
+            "type": "shell",
+            "command": "javac",
+            "args": [
+                "-d",
+                "target/classes",
+                "src/main/java/com/security/path/*.java"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$javac"
+        },
+        {
+            "label": "Clean and Compile",
+            "type": "shell",
+            "command": "rmdir /s /q target\\classes && mkdir target\\classes && javac -d target/classes src/main/java/com/security/path/*.java",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$javac"
+        }
+    ]
+} 

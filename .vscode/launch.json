@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.security.path.Main",
+            "projectName": "path-security-testing"
+        },
+        {
+            "type": "java",
+            "name": "Run Main",
+            "request": "launch",
+            "mainClass": "com.security.path.Main",
+            "projectName": "path-security-testing",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Debug Main",
+            "request": "launch",
+            "mainClass": "com.security.path.Main",
+            "projectName": "path-security-testing",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+} 
