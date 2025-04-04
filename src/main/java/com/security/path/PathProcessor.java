@@ -30,26 +30,44 @@ public abstract class PathProcessor {
     public ReadFileResult CalculateTargetPath(String userInput) {
         ReadFileResult result = new ReadFileResult();
         result.userProvidedPath = userInput;
-        if (validateUserInput(userInput)) {
-            // No Path traversal attack detected
-            result.IsPathTraversalAttackDetected = false;
-            result.IsPathSanitized = false;
-            result.executedSanitizedFilePath = Paths.get(this.baseDirectory, userInput);
-        } else {
-            // Path traversal attack detected
-            result.IsPathTraversalAttackDetected = true;
-            if (CanSanitize) {
-                // Sanitize the input
-                String sanitizedInput = sanitizeUserInput(userInput);
-                result.IsPathSanitized = true;
-                result.executedSanitizedFilePath = Paths.get(this.baseDirectory, sanitizedInput);
-            } else {
-                // Sanitization is not supported
+        try {
+
+            if (validateUserInput(userInput)) {
+                // No Path traversal attack detected
+                result.IsPathTraversalAttackDetected = false;
                 result.IsPathSanitized = false;
-                result.fileReadException = new UnsupportedOperationException("PathTraversal is detected. Sanitization is not supported for this processor");
+                result.executedSanitizedFilePath = this.JoinPaths(this.baseDirectory, userInput);
+            } else {
+                // Path traversal attack detected
+                result.IsPathTraversalAttackDetected = true;
+                if (CanSanitize) {
+                    // Sanitize the input
+                    String sanitizedInput = sanitizeUserInput(userInput);
+                    result.IsPathSanitized = true;
+                    result.executedSanitizedFilePath = this.JoinPaths(this.baseDirectory, sanitizedInput);
+                } else {
+                    // Sanitization is not supported
+                    result.IsPathSanitized = false;
+                    result.fileReadException = new UnsupportedOperationException(
+                            "PathTraversal is detected. Sanitization is not supported for this processor");
+                }
             }
         }
+        catch (Exception e) {
+            result.fileReadException = e;
+        }
         return result;
+    }
+
+    /**
+     * Merge two paths
+     * 
+     * @param basePath  The base directory path
+     * @param userInput User-provided path
+     * @return The merged path
+     */
+    protected Path JoinPaths(String basePath, String userInput) {
+        return Paths.get(basePath, userInput);
     }
 
     /**
@@ -61,7 +79,7 @@ public abstract class PathProcessor {
      */
     public ReadFileResult readFile(String userProvidedFileName) {
         ReadFileResult result = CalculateTargetPath(userProvidedFileName);
-        
+
         if (result.fileReadException != null) {
             return result;
         }
@@ -71,7 +89,7 @@ public abstract class PathProcessor {
         } catch (Exception e) {
             result.fileReadException = e;
         }
-        
+
         return result;
     }
 

@@ -23,15 +23,16 @@ public class Main {
 
         // Create instances of all processors
         PathProcessor[] processors = {
-            new InsecurePathProcessor_NoChecks(BASE_DIR),
-            new InsecurePathProcessor_NoChecks_PathStringConcat(BASE_DIR),            
-            new InsecurePathProcessor_StringContains_BypassableCheck(BASE_DIR),
-            new InsecurePathProcessor_FileAPI_MultipartFileGetOriginalName(BASE_DIR),
+            new VulnerablePathProcessor_Default_NoChecks(BASE_DIR),
+            new VulnerablePathProcessor_Default_NoChecks_ImproperPathConcat(BASE_DIR),            
+            new VulnerablePathProcessor_Bypassable_StringContainsCheck(BASE_DIR),
+            new VulnerablePathProcessor_ImproperAPIUse_MultipartFileGetOriginalName(BASE_DIR),
             new SecurePathProcessor_StringContains_Simple(BASE_DIR),
-            new SecurePathProcessor_RegexValidation_Simple(BASE_DIR),
-            new SecurePathProcessor_RegexValidation_Extended(BASE_DIR),
+            new SecurePathProcessor_RegexValidation_Blacklist_Simple(BASE_DIR),
+            new SecurePathProcessor_RegexValidation_Blacklist_Extended(BASE_DIR),
             new SecurePathProcessor_RelativePath_Validation(BASE_DIR),
-            new SecurePathProcessor_FileAPI_GetName(BASE_DIR)
+            new SecurePathProcessor_FileAPI_GetName(BASE_DIR),
+            new SecurePathProcessor_ESAPI_FileNameValidation(BASE_DIR)
         };
 
         // Test each processor

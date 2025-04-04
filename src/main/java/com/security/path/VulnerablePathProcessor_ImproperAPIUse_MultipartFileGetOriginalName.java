@@ -15,9 +15,9 @@ import org.apache.commons.io.IOUtils;
  * This is vulnerable because getOriginalFilename() returns the original filename
  * from the client without any sanitization, making it susceptible to path traversal attacks.
  */
-public class InsecurePathProcessor_FileAPI_MultipartFileGetOriginalName extends PathProcessor {
+public class VulnerablePathProcessor_ImproperAPIUse_MultipartFileGetOriginalName extends PathProcessor {
     
-    public InsecurePathProcessor_FileAPI_MultipartFileGetOriginalName(String baseDirectory) {
+    public VulnerablePathProcessor_ImproperAPIUse_MultipartFileGetOriginalName(String baseDirectory) {
         super(baseDirectory);
     }
 

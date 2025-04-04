@@ -4,9 +4,9 @@ package com.security.path;
  * This class contains a vulnerable path processing implementation
  * that performs no validation or sanitization.
  */
-public class InsecurePathProcessor_NoChecks extends PathProcessor {
+public class VulnerablePathProcessor_Default_NoChecks extends PathProcessor {
     
-    public InsecurePathProcessor_NoChecks(String baseDirectory) {
+    public VulnerablePathProcessor_Default_NoChecks(String baseDirectory) {
         super(baseDirectory);
     }
 

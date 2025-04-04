@@ -4,14 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 /**
  * This class contains a secure path processing implementation
  * that uses simple string validation.
  */
-public class SecurePathProcessor_RegexValidation_Simple extends PathProcessor {
+public class SecurePathProcessor_RegexValidation_Blacklist_Simple extends PathProcessor {
     
-    public SecurePathProcessor_RegexValidation_Simple(String baseDirectory) {
+    // Regex pattern for dangerous characters: .. or / or \
+    private static final String DANGEROUS_CHARS_REGEX_PATTERN = "\\.\\.|[/\\\\]";
+    
+    public SecurePathProcessor_RegexValidation_Blacklist_Simple(String baseDirectory) {
         super(baseDirectory);
     } 
     
@@ -25,11 +29,7 @@ public class SecurePathProcessor_RegexValidation_Simple extends PathProcessor {
         if (path == null) {
             return false;
         }
-        if (path.contains("..") || path.contains("/") 
-            || path.contains("\\")) {
-            return false;
-        }
-        return true;
+        return !Pattern.compile(DANGEROUS_CHARS_REGEX_PATTERN).matcher(path).find();
     }
 
     /**
@@ -42,8 +42,6 @@ public class SecurePathProcessor_RegexValidation_Simple extends PathProcessor {
         if (path == null) {
             return "";
         }
-        return path.replace("..", "")
-                  .replace("/", "")
-                  .replace("\\", "");
+        return path.replaceAll(DANGEROUS_CHARS_REGEX_PATTERN, "");
     }
 } 

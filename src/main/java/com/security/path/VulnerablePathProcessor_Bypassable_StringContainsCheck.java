@@ -9,9 +9,9 @@ import java.nio.file.Paths;
  * This class contains a vulnerable path processing implementation
  * that performs only a simple string contains check.
  */
-public class InsecurePathProcessor_StringContains_BypassableCheck extends PathProcessor {
+public class VulnerablePathProcessor_Bypassable_StringContainsCheck extends PathProcessor {
     
-    public InsecurePathProcessor_StringContains_BypassableCheck(String baseDirectory) {
+    public VulnerablePathProcessor_Bypassable_StringContainsCheck(String baseDirectory) {
         super(baseDirectory);
     }
 
