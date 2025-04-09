@@ -99,12 +99,9 @@ This project is open source and available under the MIT License.
 
    In the screenshot above, you can see the results of the path security tests:
    - The **vulnerable implementation** failed to withstand some or all payloads.
-   - Some **poor-defense implementations** blocked only part of the payloads.
-   - The **secure implementation** successfully blocked all payloads while maintaining the functionality of reading files.
+   - The **secure implementation** successfully blocked all payloads while fully or partially maintaining the functionality of reading files.
 
 3. **Run Tests**: You can also run the tests using Maven:
    ```bash
    mvn test
    ```
-
-Replace `<repository-url>` with the actual URL of the repository and `path-to-screenshot` with the path where the screenshot is stored. 
