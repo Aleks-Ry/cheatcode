@@ -4,29 +4,52 @@ This project demonstrates secure and insecure implementations of path processing
 
 ## Project Structure
 
-- `src/main/java/com/security/path/`
-  - `InsecurePathProcessor.java`: Contains intentionally vulnerable implementations
-  - `SecurePathProcessor.java`: Contains secure implementations with proper validation
+### Core Components
+- `src/main/java/com/security/path/PathProcessor.java`: Base abstract class defining the path processing interface
+- `src/main/java/com/security/path/ReadFileResult.java`: Result wrapper class for file operations
 
-- `src/test/java/com/security/path/`
-  - `InsecurePathProcessorTest.java`: Tests demonstrating vulnerabilities
-  - `SecurePathProcessorTest.java`: Tests demonstrating secure implementations
+### Secure Implementations
+- `Secure_PathProcessor_ESAPI_CombinedDirectoryAndFileNameValidation.java`: ESAPI-based validation with combined directory and filename checks
+- `SecurePathProcessor_ESAPI_DefaultFileNameValidation.java`: ESAPI-based filename validation
+- `SecurePathProcessor_ESAPI_FileNameValidation.java`: Basic ESAPI filename validation
+- `SecurePathProcessor_RelativeToBaseFolder_Validation.java`: Base folder-relative path validation
+- `SecurePathProcessor_RegexValidation_Whitelist_AlphaNumericDot.java`: Whitelist-based regex validation
+- `SecurePathProcessor_RegexValidation_Blacklist_Extended.java`: Extended blacklist-based regex validation
+- `SecurePathProcessor_RegexValidation_Blacklist_Simple.java`: Simple blacklist-based regex validation
+- `SecurePathProcessor_FileAPI_GetName.java`: File API-based validation
+- `SecurePathProcessor_StringContains_Simple.java`: Simple string-based validation
+- `SecurePathProcessor_RelativePath_Validation.java`: Relative path validation
+
+### Vulnerable Implementations
+- `VulnerablePathProcessor_Default_NoChecks.java`: No validation implementation
+- `VulnerablePathProcessor_Default_NoChecks_ImproperPathConcat.java`: Unsafe path concatenation
+- `VulnerablePathProcessor_ImproperAPIUse_MultipartFileGetOriginalName.java`: Unsafe multipart file handling
+- `VulnerablePathProcessor_Bypassable_StringContainsCheck.java`: Bypassable string-based validation
+
+### Test Components
+- `BasePathProcessorTest.java`: Base test class with common test cases
+- `PathTraversalTestPayloads.java`: Collection of path traversal test payloads
+- `LegitimatePathsTestPayloads.java`: Collection of legitimate path test cases
+- Individual test classes for each implementation
 
 ## Features
 
-### Insecure Implementation Examples
-- Direct path concatenation without validation
-- Path normalization without validation
-- Simple string-based path traversal detection
-- Unsafe canonical path resolution
-
 ### Secure Implementation Examples
-- Input validation
-- Path normalization
-- Comprehensive path traversal detection
-- Safe path resolution
+- ESAPI-based validation (directory and filename)
+- Regex-based validation (whitelist and blacklist approaches)
+- File API-based validation
+- Relative path validation
+- Base folder validation
+- Input sanitization
 - Null checks
 - Exception handling
+
+### Vulnerable Implementation Examples
+- Direct path concatenation without validation
+- Improper API usage
+- Bypassable string-based checks
+- Missing input validation
+- Unsafe path resolution
 
 ## Running the Tests
 
@@ -44,16 +67,20 @@ mvn test
 4. Input validation techniques
 5. Path normalization and canonicalization
 6. Exception handling in path processing
+7. ESAPI security features
+8. Regex-based validation approaches
+9. File API security considerations
 
 ## Security Considerations
 
-The insecure implementations in this project are intentionally vulnerable and should never be used in production code. They serve only as examples of common mistakes and vulnerabilities.
+The vulnerable implementations in this project are intentionally vulnerable and should never be used in production code. They serve only as examples of common mistakes and vulnerabilities.
 
 ## Dependencies
 
 - Java 11 or higher
 - JUnit 5
 - Mockito (for testing)
+- OWASP ESAPI (for secure implementations)
 
 ## License
 
