@@ -84,4 +84,27 @@ The vulnerable implementations in this project are intentionally vulnerable and 
 
 ## License
 
-This project is open source and available under the MIT License. 
+This project is open source and available under the MIT License.
+
+## How to Start
+
+1. **Download the Project**: Clone the repository to your local machine.
+   ```bash
+   git clone https://github.com/Aleks-Ry/cheatcode/
+   ```
+
+2. **Launch the Unit-Test Tab**: Open the project in your preferred IDE and navigate to the unit-test tab to run the tests.
+
+   ![Unit Test Results](Readme-unit-test-results.png)
+
+   In the screenshot above, you can see the results of the path security tests:
+   - The **vulnerable implementation** failed to withstand some or all payloads.
+   - Some **poor-defense implementations** blocked only part of the payloads.
+   - The **secure implementation** successfully blocked all payloads while maintaining the functionality of reading files.
+
+3. **Run Tests**: You can also run the tests using Maven:
+   ```bash
+   mvn test
+   ```
+
+Replace `<repository-url>` with the actual URL of the repository and `path-to-screenshot` with the path where the screenshot is stored. 
