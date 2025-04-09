@@ -1,9 +1,9 @@
 package com.security.path;
 
-class SecurePathProcessor_ESAPI_FileNameValidationTest extends BasePathProcessorTest {
+class SecurePathProcessor_ESAPI_DefaultFileNameValidationTest extends BasePathProcessorTest {
     @Override
     PathProcessor createProcessor(String baseDir) {
-        return new SecurePathProcessor_ESAPI_FileNameValidation(baseDir);
+        return new SecurePathProcessor_ESAPI_DefaultFileNameValidation(baseDir);
     }
 
     @Override

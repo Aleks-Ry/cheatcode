@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.io.File;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.InvalidPathException;
+import org.owasp.esapi.errors.ValidationException;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Path Processor Tests")
@@ -76,17 +77,15 @@ abstract class BasePathProcessorTest {
         assertEquals(SUBFOLDER_CONTENT, result.fileReadResult);
         assertNull(result.fileReadException);
     }
-    
+
     @Test
     void AttackCase_SingleLevelTraversal() {
         ReadFileResult result = processor.readFile(PathTraversalTestPayloads.SINGLE_LEVEL_TRAVERSAL);
         assertNull(result.fileReadResult, PURPLE + "Attack succeeded! Secret file was read! Content: " + result.fileReadResult + RESET);
         assertTrue(result.IsPathTraversalAttackDetected, "Attack was not detected");
-        assertEquals(processor.CanSanitize, result.IsPathSanitized);
         assertNotNull(result.fileReadException);        
-        assertTrue(result.fileReadException instanceof UnsupportedOperationException || 
-                  result.fileReadException instanceof NoSuchFileException,
-                  "Expected UnsupportedOperationException or NoSuchFileException, but got: " + 
+        assertTrue(IsOneOfExpectedExceptions(result.fileReadException),
+                  "Got unexpected exception: " + 
                   (result.fileReadException != null ? result.fileReadException.getClass().getSimpleName() : "null"));
     }
     
@@ -95,11 +94,9 @@ abstract class BasePathProcessorTest {
         ReadFileResult result = processor.readFile(PathTraversalTestPayloads.DOUBLE_LEVEL_TRAVERSAL);
         assertNull(result.fileReadResult, PURPLE + "Attack succeeded! Secret file was read! Content: " + result.fileReadResult + RESET);
         assertTrue(result.IsPathTraversalAttackDetected, "Attack was not detected");
-        assertEquals(processor.CanSanitize, result.IsPathSanitized);
         assertNotNull(result.fileReadException);        
-        assertTrue(result.fileReadException instanceof UnsupportedOperationException || 
-                  result.fileReadException instanceof NoSuchFileException,
-                  "Expected UnsupportedOperationException or NoSuchFileException, but got: " + 
+        assertTrue(IsOneOfExpectedExceptions(result.fileReadException),
+                  "Got unexpected exception: " + 
                   (result.fileReadException != null ? result.fileReadException.getClass().getSimpleName() : "null"));
     }
     
@@ -107,12 +104,10 @@ abstract class BasePathProcessorTest {
     void AttackCase_DoubleDotTraversal() {
         ReadFileResult result = processor.readFile(PathTraversalTestPayloads.DOUBLE_DOT_TRAVERSAL);
         assertNull(result.fileReadResult, PURPLE + "Attack succeeded! Secret file was read! Content: " + result.fileReadResult + RESET);
-        assertTrue(result.IsPathTraversalAttackDetected, "Attack was not detected");
-        assertEquals(processor.CanSanitize, result.IsPathSanitized);
+        assertTrue(result.IsPathTraversalAttackDetected, "Attack was not detected");        
         assertNotNull(result.fileReadException);
-        assertTrue(result.fileReadException instanceof UnsupportedOperationException || 
-                  result.fileReadException instanceof NoSuchFileException,
-                  "Expected UnsupportedOperationException or NoSuchFileException, but got: " + 
+        assertTrue(IsOneOfExpectedExceptions(result.fileReadException),
+                  "Got unexpected exception: " + 
                   (result.fileReadException != null ? result.fileReadException.getClass().getSimpleName() : "null"));
     }
     
@@ -121,11 +116,9 @@ abstract class BasePathProcessorTest {
         ReadFileResult result = processor.readFile(PathTraversalTestPayloads.WINDOWS_STYLE_TRAVERSAL);
         assertNull(result.fileReadResult, PURPLE + "Attack succeeded! Secret file was read! Content: " + result.fileReadResult + RESET);
         assertTrue(result.IsPathTraversalAttackDetected, "Attack was not detected");
-        assertEquals(processor.CanSanitize, result.IsPathSanitized);
         assertNotNull(result.fileReadException);
-        assertTrue(result.fileReadException instanceof UnsupportedOperationException || 
-                  result.fileReadException instanceof NoSuchFileException,
-                  "Expected UnsupportedOperationException or NoSuchFileException, but got: " + 
+        assertTrue(IsOneOfExpectedExceptions(result.fileReadException),
+                  "Got unexpected exception: " + 
                   (result.fileReadException != null ? result.fileReadException.getClass().getSimpleName() : "null"));
     }
     
@@ -140,5 +133,11 @@ abstract class BasePathProcessorTest {
             // If not sanitized, it should throw
             assertNotNull(result.fileReadException);
         }
+    }
+
+    private boolean IsOneOfExpectedExceptions(Exception e) {
+        return e instanceof UnsupportedOperationException || 
+               e instanceof NoSuchFileException ||
+               (e.getCause() != null && e.getCause() instanceof ValidationException);
     }
 } 

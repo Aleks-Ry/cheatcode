@@ -1,6 +1,8 @@
 package com.security.path;
 
 import java.io.IOException;
+import org.owasp.esapi.reference.DefaultSecurityConfiguration;
+import org.owasp.esapi.SecurityConfiguration;
 
 /**
  * Main class demonstrating secure and insecure path processing implementations.
@@ -11,6 +13,15 @@ public class Main {
     private static final String RESET = "\u001B[0m";
 
     public static void main(String[] args) {
+        // Set up ESAPI resource directory
+        try {
+            String resourcePath = Main.class.getClassLoader().getResource("esapi").getPath();
+            SecurityConfiguration config = DefaultSecurityConfiguration.getInstance();
+            config.setResourceDirectory(resourcePath);
+        } catch (Exception e) {
+            System.err.println("Failed to set ESAPI resource directory: " + e.getMessage());
+        }
+
         String[] testPaths = {
             "legit.txt",                         // Valid file in secure storage
             "SomeSubFolder/sublegit.txt",         // Valid file in subfolder of secure storage
@@ -32,7 +43,8 @@ public class Main {
             new SecurePathProcessor_RegexValidation_Blacklist_Extended(BASE_DIR),
             new SecurePathProcessor_RelativePath_Validation(BASE_DIR),
             new SecurePathProcessor_FileAPI_GetName(BASE_DIR),
-            new SecurePathProcessor_ESAPI_FileNameValidation(BASE_DIR)
+            new SecurePathProcessor_ESAPI_DefaultFileNameValidation(BASE_DIR),
+            new Secure_PathProcessor_ESAPI_CombinedDirectoryAndFileNameValidation(BASE_DIR)
         };
 
         // Test each processor
